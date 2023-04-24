@@ -78,7 +78,7 @@ export default {
   methods: {
     // eslint-disable-next-line no-unused-vars
     logger(msg){
-      // console.log(msg)
+      console.log(msg)
     },
     generateUniqueKey(){
       return this.$utils.getUUID();
