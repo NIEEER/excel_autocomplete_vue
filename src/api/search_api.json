@@ -1,0 +1,6 @@
+{
+  "columnValueExist": "/search/columnValueExist?authorization=Tan",
+  "_columnValueExist": "查询数据是否存在，返回true or false请求参数为(String columnName,String value)",
+  "columnValueList": "/search/columnValueList?authorization=Tan",
+  "_columnValueList": "根据已输入内容进行模糊查询，返回合法的value列表，请求参数为(String columnName,String inputValue)"
+}
