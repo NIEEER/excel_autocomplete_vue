@@ -1,6 +1,6 @@
 <template>
-  <div class="hello">
-    <div style="display: flex">
+  <div class="excel-parent">
+    <div class="head-button">
       <!-- 指向隐藏的input事件接收文件 -->
       <el-button type="primary" @click="$refs.fileInput.click()">
         导入
@@ -12,7 +12,10 @@
       <el-button @click="exportExcel">导出为 Excel</el-button>
     </div>
     <LoadingAnimation :visible="loading"/>
-    <table v-if="excelData.length>0" class="table">
+    <div v-show="!showExcelData">
+      <SplitLines :value="'请导入数据'"/>
+    </div>
+    <table v-show="showExcelData" class="table">
       <thead>
       <tr>
         <th>操作</th>
@@ -58,10 +61,12 @@ import * as XLSX from 'xlsx';
 import {saveAs} from 'file-saver';
 import AutoCompleteInput from './util_component/AutoCompleteInput.vue';
 import LoadingAnimation from "@/components/style_component/LoadingAnimation";
+import SplitLines from "@/components/style_component/SplitLines";
 
 export default {
   name: 'TranslateExcel',
   components: {
+    SplitLines,
     LoadingAnimation,
     AutoCompleteInput,
   },
@@ -132,7 +137,7 @@ export default {
       this.$utils.makeButtonUnFocus(event);
     },
     inputValueChange(value) {
-      this.excelData[value.rowIndex][value.columnName] = value.inputValue;
+      this.excelData[10 * (this.currentPage - 1) + value.rowIndex][value.columnName] = value.inputValue;
     },
     initExcelData() {
       this.$set(this, 'excelData', []);
@@ -198,6 +203,9 @@ export default {
     },
     totalPages() {
       return Math.ceil(this.excelData.length / this.pageSize);
+    },
+    showExcelData() {
+      return this.excelData.length > 0;
     }
   }
 
@@ -206,6 +214,13 @@ export default {
 </script>
 
 <style scoped>
+.head-button {
+}
+
+.head-button.el-button {
+  margin: 0 auto;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;

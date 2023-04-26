@@ -86,7 +86,7 @@ export default {
     },
     // eslint-disable-next-line no-unused-vars
     onInputChange(columnName, inputValue) {
-      // this.getFilteredData(columnName, inputValue);
+      this.getFilteredData(columnName, inputValue);
       this.$emit('inputValueChange', {
         rowIndex: this.rowIndex,
         columnName: this.columnName,
@@ -107,7 +107,7 @@ export default {
       this.showSuggestionList = true;
     },
     hideSuggestions() {
-      // this.getCellStyle(this.columnName, this.inputValue);
+      this.getCellStyle(this.columnName, this.inputValue);
       setTimeout(() => {
         this.showSuggestionList = false;
       }, 200);
@@ -135,7 +135,7 @@ export default {
     }
   },
   mounted() {
-    // this.getCellStyle(this.columnName, this.value);
+    this.getCellStyle(this.columnName, this.value);
   }
 };
 </script>
