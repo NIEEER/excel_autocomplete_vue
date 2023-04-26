@@ -135,7 +135,7 @@ export default {
     }
   },
   mounted() {
-    this.getCellStyle(this.columnName, this.value);
+    // this.getCellStyle(this.columnName, this.value);
   }
 };
 </script>

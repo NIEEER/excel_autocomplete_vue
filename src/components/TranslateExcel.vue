@@ -5,7 +5,8 @@
       <el-button type="primary" @click="$refs.fileInput.click()">
         导入
         <input ref="fileInput" type="file" @change="readExcel" style="display: none"/>
-        <i class="el-icon-upload el-icon--right"></i></el-button>
+        <i class="el-icon-upload el-icon--right"></i>
+      </el-button>
       <el-button @click="recoveryOneStepExcelData">恢复上一步</el-button>
       <el-button @click="recoveryExcelData">恢复到开始</el-button>
       <el-button @click="exportExcel">导出为 Excel</el-button>
@@ -22,8 +23,9 @@
       </thead>
       <tbody>
       <tr v-for="(row, rowIndex) in paginatedData" :key="rowIndex">
-<!--        <td v-on="logger(row)">-->
-        <td v-on="logger(row)">
+        <!-- 根据行index删除数据 -->
+        <!--        <td v-on="logger(row)">-->
+        <td>
           <button class="delete-button" @click="deleteRow(rowIndex, $event)">
             <i class="el-icon-remove-outline"></i>
           </button>
@@ -69,7 +71,7 @@ export default {
       oldExcelData: [],
       recoveryData: [],
       currentPage: 1,
-      pageSize: 20,
+      pageSize: 10,
       loading: false
     }
   },
@@ -77,10 +79,10 @@ export default {
   watch: {},
   methods: {
     // eslint-disable-next-line no-unused-vars
-    logger(msg){
+    logger(msg) {
       console.log(msg)
     },
-    generateUniqueKey(){
+    generateUniqueKey() {
       return this.$utils.getUUID();
     },
     addRow(event) {
@@ -101,6 +103,8 @@ export default {
     deleteRow(rowIndex, event) {
       // 备份表格数据
       this.oldExcelData.push(JSON.stringify(this.excelData));
+      // 正确的行号为页数*每页行数+index
+      rowIndex = 10 * (this.currentPage - 1) + rowIndex;
       // 根据索引删除行
       this.excelData.splice(rowIndex, 1);
       this.$utils.makeButtonUnFocus(event);
@@ -220,7 +224,7 @@ td {
   border: 1px solid #ddd;
 }
 
-.delete-button{
+.delete-button {
   color: #f00000;
   border-radius: 3px;
   border-color: snow;
@@ -233,19 +237,6 @@ td {
   justify-content: center;
   align-items: center;
   margin-top: 1em;
-}
-
-.pagination button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 8px 16px;
-  margin: 0 4px;
-  border: none;
-  cursor: pointer;
-}
-
-.pagination button:hover {
-  background-color: #45a049;
 }
 
 .pagination span {
